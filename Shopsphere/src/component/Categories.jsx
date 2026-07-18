@@ -3,6 +3,7 @@ import { GiShirt , GiSofa, GiLipstick } from "react-icons/gi";
 import { HiOutlineDevicePhoneMobile } from "react-icons/hi2";
 import { IoIosFootball } from "react-icons/io";
 import { BsThreeDots } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 const Categories = () => {
 
@@ -11,38 +12,45 @@ const Categories = () => {
       logo: <GiShirt className="text-blue-400 text-5xl bg-blue-100 rounded-2xl p-2" />,
       Text: "Fashion",
       path: "/category/fashion",
+    
     },
     {
       logo: <HiOutlineDevicePhoneMobile className="text-blue-400 text-5xl bg-blue-100 rounded-2xl p-2" />,
-      Text: "Electronics"
+      Text: "Electronics",
+      path: "/category/fashion",
     },
     {
       logo: <GiSofa  className="text-blue-400 text-5xl bg-blue-100 rounded-2xl p-2" />,
-      Text: "Home & Living"
+      Text: "Home & Living",
+      path: "/category/fashion",
     },
     {
       logo: <GiLipstick className="text-blue-400 text-5xl bg-blue-100 rounded-2xl p-2" />,
-      Text: "Beauty"
+      Text: "Beauty",
+      path: "/category/fashion",
     },
     {
       logo: <IoIosFootball className="text-blue-400 text-5xl bg-blue-100 rounded-2xl p-2" />,
-      Text: "Sports"
+      Text: "Sports",
+      path: "/category/fashion",
     },
     {
       logo: <BsThreeDots className="text-blue-400 text-5xl bg-blue-100 rounded-2xl p-2" />,
-      Text: "More"
+      Text: "More",
+      path: "/category/fashion",
     }
   ];
 
   return (
-    <div className="flex gap-10 justify-center mt-6 flex-wrap">
+    <div className="flex flex-auto gap-10 justify-center mt-6 flex-wrap">
       {catego.map((data, idx) => (
+       
         <div
           key={idx}
-          className="h-35 w-45 bg-amber-100 rounded-xl flex flex-col justify-center items-center"
-        >
-           
-          {data.logo}
+          className="h-25 w-30 lg:h-35 lg:w-45 bg-amber-100 rounded-xl flex flex-col justify-center items-center"
+        >  
+          <Link to={data.path}>{data.logo}</Link>
+          
           <h3 className="font-bold mt-2">{data.Text}</h3>
         </div>
       ))}

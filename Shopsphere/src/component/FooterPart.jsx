@@ -8,6 +8,7 @@ import {
 } from "react-icons/fa";
 import QuickLinks from "./footerLinks/QuickLInks";
 import CustomerS from "./footerLinks/CustomerS";
+import MyAccount from "./footerLinks/myAccount";
 
 const FooterPart = () => {
   return (
@@ -48,30 +49,8 @@ const FooterPart = () => {
 
           {/* Column 4 */}
           <div>
-            <h2 className="text-white text-xl font-semibold mb-5">
-              My Account
-            </h2>
-
             <div className="flex flex-col gap-3">
-              <Link to="/login" className="hover:text-blue-500 duration-300">
-                Login
-              </Link>
-
-              <Link to="/wishlist" className="hover:text-blue-500 duration-300">
-                Wishlist
-              </Link>
-
-              <Link to="/cart" className="hover:text-blue-500 duration-300">
-                Cart
-              </Link>
-
-              <Link to="/profile" className="hover:text-blue-500 duration-300">
-                Profile
-              </Link>
-
-              <Link to="/orders" className="hover:text-blue-500 duration-300">
-                Orders
-              </Link>
+              <MyAccount/>
             </div>
           </div>
 

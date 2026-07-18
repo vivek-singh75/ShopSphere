@@ -2,6 +2,7 @@ import { React,useState } from 'react'
 import { Search, User, Heart, ShoppingCart,  ChevronDown, ChevronUp } from "lucide-react";
 import { Link } from "react-router-dom";
 import { IoReorderThreeOutline } from "react-icons/io5";
+import Products from '../pages/Products';
 
 const Navbar = () => {
         const [open, setOpen] = useState(false);        
@@ -34,16 +35,16 @@ const Navbar = () => {
 
                 {/* Dropdown Menu */}
                 {open && (
-                    <div className="absolute top-16 left-0 w-full bg-amber-400 shadow-lg z-50">
-                        <Link className="block px-5 py-3">Home</Link>
-                        <Link className="block px-5 py-3">Products</Link>
-                        <Link className="block px-5 py-3">Categories</Link>
-                        <Link className="block px-5 py-3">About</Link>
-                        <Link className="block px-5 py-3">Contact</Link>
+                    <div className="absolute top-19 left-5 w-30 bg-amber-400 shadow-lg z-50">
+                        <Link to={'/'} className="block px-5 py-3 hover:bg-amber-600 rounded">Home</Link>
+                        <Link to={"/Products"} className="block px-5 py-3 hover:bg-amber-600 rounded">Products</Link>
+                        <Link to={"/PageCategories"} className="block px-5 py-3 hover:bg-amber-600 rounded">Categories</Link>
+                        <Link className="block px-5 py-3 hover:bg-amber-600 rounded">About</Link>
+                        <Link className="block px-5 py-3 hover:bg-amber-600 rounded">Contact</Link>
                     </div>
                 )}              
                 <div className='md:hidden flex gap-4.5 '>
-                    <Link to="/"><Search size={20}/> </Link>
+                    <Link to="/Search"><Search size={20}/> </Link>
                     <Link to="/User"><User size={20}/> </Link>
                     <Link to="/ShoppingCart"><ShoppingCart size={20}/> </Link>
                     
@@ -54,12 +55,12 @@ const Navbar = () => {
                 <div className='flex justify-evenly gap-6.5 '>
                     <Link to="/">Home</Link>
                     <Link to="/Products">Products</Link>
-                    <Link to="/Categories">Categories</Link>
+                    <Link to="/PageCategories">Categories</Link>
                     <Link to="/About">About</Link>
                     <Link to="/Contact">Contact</Link>
                 </div>
                 <div className='flex justify-evenly gap-6.5 '>
-                    <Link to="/"><Search size={20}/> </Link>
+                    <Link to="/Search"><Search size={20}/> </Link>
                     <Link to="/User"><User size={20}/> </Link>
                     <Link to="/Heart"><Heart size={20}/></Link>
                     <Link to="/ShoppingCart"><ShoppingCart size={20}/> </Link>
