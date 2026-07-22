@@ -5,10 +5,11 @@ import Home from './pages/Home'
 import { Routes, Route } from 'react-router-dom'
 import Products from './pages/Products'
 import PageCategories from './pages/PageCategories'
+import Footer from './component/Footer'
 
 const App = () => {
   return (
-    <div>
+    <div className='bg-blue-100'>
       <Navbar/>
 
       <Routes>
@@ -16,7 +17,7 @@ const App = () => {
         <Route path="/Products" element={<Products />} />
         <Route path="/PageCategories" element={<PageCategories />} />
       </Routes>
-     
+      <Footer/>
     </div>
   )
 }
