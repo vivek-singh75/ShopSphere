@@ -15,7 +15,7 @@ const Products = () => {
         <div className=' lg:px-4'>
           <SidePart1/>
         </div>
-        <div className='w-[80%] relative '>
+        <div className='w-[85%]  '>
           <ProductCard/>      
         </div>
       </div>

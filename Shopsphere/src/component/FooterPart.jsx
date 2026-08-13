@@ -12,7 +12,7 @@ import MyAccount from "./footerLinks/myAccount";
 
 const FooterPart = () => {
   return (
-    <footer className="bg-slate-900 text-gray-300 mt-16">
+    <footer className="bg-slate-900 text-gray-300 mt-16 ">
       <div className="max-w-7xl mx-auto px-8 py-14">
 
         {/* Footer Grid */}

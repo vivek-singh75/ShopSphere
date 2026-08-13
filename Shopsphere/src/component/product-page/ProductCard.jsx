@@ -4,6 +4,7 @@ import { CiHeart } from "react-icons/ci";
 import { MdCurrencyRupee } from "react-icons/md";
 import axios from "axios";
 import { IoFilter } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
 
 
@@ -34,7 +35,8 @@ const ProductCard =  () => {
   return (
     <div className=''> 
         <div >
-            <div className=' flex gap-20 h-8 md:gap-16   lg:gap-150 px-5 '>
+          
+            <div className=' flex gap-13 h-8 md:gap-20   lg:gap-150 px-3 '>
                 <div className='flex gap-10'>
                     <button className='flex h-7 w-25 bg-white rounded gap-3'><IoFilter size={15}/>Filter</button>
                     <h4 className='w-50 hidden md:flex'>100 product Found</h4>
@@ -47,7 +49,8 @@ const ProductCard =  () => {
                 const dicountedPrice = (item.price - (item.price * item.discountPercentage) / 100).toFixed(2);
                 return(
                     <div>
-                        <div key={item.id} className='bg-cyan-100 h-71 w-45 lg:h-81 lg:w-57  rounded hidden md:grid '>
+                        <Link key={item.id} to={`/product/${item.id}`}>
+                        <div  className='bg-cyan-100 h-71 w-45 lg:h-81 lg:w-57  rounded hidden md:grid '>
                         <div className='px-2 py-2 overflow-hidden  relative'>
                             <div className='flex gap-30 py-1 absolute top-2 left-2 z-10'>
                                 <h5 className='h-4 w-15 bg-red-400 text-white flex justify-center rounded text-[10px]'><span>{item.discountPercentage}%</span>OFF</h5>
@@ -69,33 +72,35 @@ const ProductCard =  () => {
                             <FaCartArrowDown/> Add to Cart</button>
                         </div>
                        </div>
-                       
+                     {/* for mobile   */}
                       <div className=' py-2 md:hidden'>
-                        <div className='flex w-[80vw] h-[25vh] gap-1  bg-cyan-100 rounded-md'>
+                        <div className='flex  min-w-[92vw] sm:max-w-[92vw] h-[25vh] gap-1  bg-cyan-100 rounded-md'>
                              <div className=' bg-white  border-cyan-100 border-10'>
                                 <div className='flex gap-14 py-2'>
                                     <h5 className='h-4 w-15 bg-red-400 text-white flex justify-center rounded text-[10px]'><span>{item.discountPercentage}%</span>OFF</h5>
                                     <h5><CiHeart/></h5>
                                 </div>
-                                <img className='h-[16vh] w-[27vw] ' src={item.thumbnail}  alt="" />
+                                <img className='h-[15vh] w-[27vw] ' src={item.thumbnail}  alt="" />
                             </div>
-                            <div className='grid gap-0.5'>
+                            <div className='block  w-[47vw]'>
                                  <p className='flex'><FaStar size={15} color='yellow'/>{item.rating}<span>({item.reviews.length})</span></p>
-                                <h3>{item.category}</h3>
+                                 <h3>{item.category}</h3>
                                  <p >{item.brand}</p>
                                 <div className=' flex gap-2'>
                                     <h3 className='font-bold'>₹{dicountedPrice}</h3> 
                                     <p>₹{item.price}</p>
                                 </div>
                                 <div className='py-2' >
-                                    <button className="sm:w-20 h-8 flex items-center justify-center   text-blue-500 px-4 py-4 rounded border-2 border-blue-500">
+                                    <button className="sm:w-20 h-6 flex items-center justify-center   text-blue-500 px-4 py-3 rounded border-2 border-blue-500">
                                     <FaCartArrowDown/> Add to Cart</button>
                                 </div>
                             </div>
                         </div>
                            
                         </div>
-                    </div>
+                        </Link> 
+                   </div>
+                    
                     
             )
          })
@@ -110,7 +115,7 @@ const ProductCard =  () => {
         <button className='bg-blue-950 text-white rounded h-6 w-16 hover:bg-amber-700' onClick={preData}>Previus</button>
         <h4>Page No {List/10}</h4>
         <button className='bg-blue-950 text-white rounded h-6 w-16  hover:bg-amber-700' onClick={nextData}>Next</button>
-       </div>
+       </div>=-
       
     </div>
   )

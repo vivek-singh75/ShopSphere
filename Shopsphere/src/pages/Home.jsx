@@ -6,7 +6,7 @@ import Footer from '../component/Footer';
 const Home = () => {
   return (
     <div >
-      <div className=' w-screen bg-blue-200 px-14 md:px-24 py-12 grid gap-3 grid-cols-1'>
+      <div className=' w-full bg-blue-200 px-14 md:px-24 py-12 grid gap-3 grid-cols-1'>
         <div >
           <h3 className='text-xs font-bold text-blue-700'>NEW CLLECTION</h3>
           <h1 className='text-4xl font-bold '>Best Quality Products <br /> For You</h1>
