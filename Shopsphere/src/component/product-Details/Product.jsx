@@ -9,7 +9,8 @@ import {
   FaShieldAlt,
 } from "react-icons/fa";
 import { IoChevronBack } from "react-icons/io5";
-import LoadingAnim from "../LoadingAnim";
+
+
 
 const Product = () => {
   const { id } = useParams();
@@ -36,7 +37,7 @@ const Product = () => {
     getProduct();
   }, [id]);
 
-  LoadingAnim
+ 
   if (!product) {
     return (
       <div className="min-h-screen flex justify-center items-center">

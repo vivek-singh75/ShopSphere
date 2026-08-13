@@ -16,9 +16,10 @@ const Navbar = () => {
 
             Free delevery on order over 499 | 7 Days Easy Returns </h3>
         </nav>
-        <nav className='bg-amber-400 h-16 flex justify-between items-center pr-4 md:px-16  '>
-            <h1 className='hidden md:flex text-sm md:text-lg lg:text-2xl font-bold'>Shop<span 
-            className='text-blue-800'>Sphere</span> </h1>
+        <nav className='bg-amber-400 h-16 flex justify-between items-center pr-4 md:px-6 lg:px-16  '>
+            <Link to= '/'> <h1 className='hidden md:flex text-sm md:text-lg lg:text-2xl font-bold'>Shop<span 
+            className='text-blue-800'>Sphere</span> </h1></Link>
+           
            
             {/* for mobile screeen */}
             <div className=" md:hidden flex justify-between items-center h-16 px-4 ">
@@ -35,8 +36,8 @@ const Navbar = () => {
             </div>
 
                 {/* Dropdown Menu */}
-                {open && (
-                    <div className="absolute top-19 left-5 w-30 bg-amber-400 shadow-lg z-50">
+                {open &&(
+                    <div  onClick = {()=>setOpen(!open)}  className="absolute top-19 left-5 w-30 bg-amber-400 shadow-lg z-50">
                         <Link to={'/'} className="block px-5 py-3 hover:bg-amber-600 rounded">Home</Link>
                         <Link to={"/Products"} className="block px-5 py-3 hover:bg-amber-600 rounded">Products</Link>
                         <Link to={"/PageCategories"} className="block px-5 py-3 hover:bg-amber-600 rounded">Categories</Link>
