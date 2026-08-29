@@ -5,13 +5,11 @@ const PriceRange = () => {
     const [price, setPrice] = useState(5000);
 
     return (
-
         <div className="bg-white rounded-xl shadow-md p-5">
 
             <h2 className="font-semibold text-lg mb-5">
                 Price Range
             </h2>
-
             <input
                 type="range"
                 min="0"

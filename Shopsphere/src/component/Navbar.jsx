@@ -22,13 +22,13 @@ const Navbar = () => {
            
            
             {/* for mobile screeen */}
-            <div className=" md:hidden flex justify-between items-center h-16 px-4 ">
+            <div className=" md:hidden flex justify-start items-center gap-[8vw] h-16 px-2 ">
 
                     <button onClick={() => setOpen(!open)}>
                         <IoReorderThreeOutline size={35} />
                     </button>
 
-                    <h1 className="text-2xl font-bold">
+                    <h1 className="px-2 text-2xl font-bold">
                         <Link to="/">Shop<span className="text-blue-700">Sphere</span></Link>
                         
                     </h1>
