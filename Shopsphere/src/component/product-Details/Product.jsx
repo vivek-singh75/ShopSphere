@@ -9,6 +9,7 @@ import {
   FaShieldAlt,
 } from "react-icons/fa";
 import { useNavigate  } from "react-router-dom";
+import { addToCart } from "../AddToCart";
 import { IoChevronBack } from "react-icons/io5";
 
 
@@ -57,39 +58,44 @@ const Product = () => {
     (product.price * product.discountPercentage) / 100
   ).toFixed(2);
 
+ const handleAddToCart = () => {
+  addToCart(product, quantity);
   
-  const addToCart = ()=>{
-    const productInfo= {
-        id: product.id,
-        brand: product.brand,
-        price: product.price,
-        discountPercentage : product.discountPercentage,
-        thumbnail: product.thumbnail,
-        title: product.title
-    }
-    console.log(productInfo)
+  alert("Added to cart");
+  navigate("/ShoppingCart");
+};
+  // const addToCart = ()=>{
+  //   const productInfo= {
+  //       id: product.id,
+  //       brand: product.brand,
+  //       price: product.price,
+  //       discountPercentage : product.discountPercentage,
+  //       thumbnail: product.thumbnail,
+  //       title: product.title
+  //   }
+  //   console.log(productInfo)
 
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const existingProduct = cart.find(
-      (item) => item.id === productInfo.id
-      );
-    if(existingProduct){
-      console.log("product already exist")
-      existingProduct.quantity = quantity+1
-    }else{
-      cart.push({...productInfo,
-      quantity : 1
-    })}
-    // cart.push({...productInfo,
-    //   quantity :1
-    // });
-    localStorage.setItem("cart", JSON.stringify(cart));
-    alert("Added to cart")
-    navigate("/ShoppingCart");
+  //   let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  //   const existingProduct = cart.find(
+  //     (item) => item.id === productInfo.id
+  //     );
+  //   if(existingProduct){
+  //     console.log("product already exist")
+  //     existingProduct.quantity = quantity+1
+  //   }else{
+  //     cart.push({...productInfo,
+  //     quantity : 1
+  //   })}
+  //   // cart.push({...productInfo,
+  //   //   quantity :1
+  //   // });
+  //   localStorage.setItem("cart", JSON.stringify(cart));
+  //   alert("Added to cart")
+  //   navigate("/ShoppingCart");
 
   
-    console.log("add to cart clicked")
-  }
+  //   console.log("add to cart clicked")
+  // }
 
   return (
     <div className="bg-gray-50 min-h-screen py-6 px-4 md:px-8 lg:px-16">
@@ -294,7 +300,7 @@ const Product = () => {
             {/* Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 mt-7">
 
-              <button onClick={addToCart} className="flex-1 flex justify-center items-center gap-2 border-2 border-blue-600 text-blue-600 py-3 rounded-lg font-semibold hover:bg-blue-50 transition">
+              <button onClick={handleAddToCart} className="flex-1 flex justify-center items-center gap-2 border-2 border-blue-600 text-blue-600 py-3 rounded-lg font-semibold hover:bg-blue-50 transition">
                 <FaCartArrowDown />
                 Add to Cart
               </button>

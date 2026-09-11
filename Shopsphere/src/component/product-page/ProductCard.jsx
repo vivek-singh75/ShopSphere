@@ -4,6 +4,7 @@ import { CiHeart } from "react-icons/ci";
 import { IoFilter } from "react-icons/io5";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { addToCart } from "../AddToCart";
 
 const LIMIT = 10;
 const API_URL = "https://dummyjson.com/products";
@@ -19,7 +20,16 @@ const ProductCardItem = ({ item }) => {
     item.price -
     (item.price * item.discountPercentage) / 100
   ).toFixed(2);
+  const product = item
+  const quantity= 1
 
+  const handleAddToCart = () => {
+        addToCart(product, quantity);
+        console.log("clicked")
+        
+
+        alert("Added to cart");
+      };
 
   return (
     <Link
@@ -104,7 +114,11 @@ const ProductCardItem = ({ item }) => {
 
           <button
             type="button"
-            onClick={(e) => e.preventDefault()}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleAddToCart();
+              }}
             className="w-full flex items-center justify-center gap-2 text-blue-500 px-4 py-2 rounded border-2 border-blue-500 hover:bg-blue-500 hover:text-white transition"
           >
             <FaCartArrowDown />
@@ -190,7 +204,11 @@ const ProductCardItem = ({ item }) => {
 
             <button
               type="button"
-              onClick={(e) => e.preventDefault()}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleAddToCart();
+              }}
               className="mt-2 flex items-center justify-center gap-1 text-blue-500 px-3 py-2 rounded border-2 border-blue-500 text-xs hover:bg-blue-500 hover:text-white transition"
             >
               <FaCartArrowDown />
@@ -244,11 +262,10 @@ const ProductCard = () => {
       );
 
       setProducts(response.data.products);
-      console.log(response.data.products)
+   
       setTotal(response.data.total);
-
+      
     } catch (error) {
-
       console.error(
         "Failed to fetch products:",
         error
@@ -272,6 +289,7 @@ const ProductCard = () => {
   }, [skip]);
 
 
+  
   // ====================================================
   // PAGINATION
   // ====================================================
