@@ -8,13 +8,14 @@ import {
   FaTruck,
   FaShieldAlt,
 } from "react-icons/fa";
+import { useNavigate  } from "react-router-dom";
 import { IoChevronBack } from "react-icons/io5";
 
 
 
 const Product = () => {
   const { id } = useParams();
-
+  const navigate = useNavigate()
   const [product, setProduct] = useState(null);
   const [mainImage, setMainImage] = useState("");
   const [quantity, setQuantity] = useState(1);
@@ -28,6 +29,8 @@ const Product = () => {
         );
 
         setProduct(response.data);
+        
+        console.log(response.data);
         setMainImage(response.data.thumbnail);
       } catch (error) {
         console.log("Error fetching product:", error);
@@ -53,6 +56,40 @@ const Product = () => {
     product.price -
     (product.price * product.discountPercentage) / 100
   ).toFixed(2);
+
+  
+  const addToCart = ()=>{
+    const productInfo= {
+        id: product.id,
+        brand: product.brand,
+        price: product.price,
+        discountPercentage : product.discountPercentage,
+        thumbnail: product.thumbnail,
+        title: product.title
+    }
+    console.log(productInfo)
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const existingProduct = cart.find(
+      (item) => item.id === productInfo.id
+      );
+    if(existingProduct){
+      console.log("product already exist")
+      existingProduct.quantity = quantity+1
+    }else{
+      cart.push({...productInfo,
+      quantity : 1
+    })}
+    // cart.push({...productInfo,
+    //   quantity :1
+    // });
+    localStorage.setItem("cart", JSON.stringify(cart));
+    alert("Added to cart")
+    navigate("/ShoppingCart");
+
+  
+    console.log("add to cart clicked")
+  }
 
   return (
     <div className="bg-gray-50 min-h-screen py-6 px-4 md:px-8 lg:px-16">
@@ -197,8 +234,8 @@ const Product = () => {
               </h3>
 
               <div className="flex gap-3">
-{/* wee have to hide this for foods related product */}
-                if
+          {/* wee have to hide this for foods related product */}
+                
                 {["S", "M", "L", "XL", "XXL"].map((size) => (
                   <button
                     key={size}
@@ -257,7 +294,7 @@ const Product = () => {
             {/* Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 mt-7">
 
-              <button className="flex-1 flex justify-center items-center gap-2 border-2 border-blue-600 text-blue-600 py-3 rounded-lg font-semibold hover:bg-blue-50 transition">
+              <button onClick={addToCart} className="flex-1 flex justify-center items-center gap-2 border-2 border-blue-600 text-blue-600 py-3 rounded-lg font-semibold hover:bg-blue-50 transition">
                 <FaCartArrowDown />
                 Add to Cart
               </button>

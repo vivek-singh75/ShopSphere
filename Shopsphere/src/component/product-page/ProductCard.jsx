@@ -236,7 +236,6 @@ const ProductCard = () => {
   const getProducts = async () => {
 
     try {
-
       setLoading(true);
       setError(false);
 
@@ -245,6 +244,7 @@ const ProductCard = () => {
       );
 
       setProducts(response.data.products);
+      console.log(response.data.products)
       setTotal(response.data.total);
 
     } catch (error) {
@@ -383,7 +383,7 @@ const ProductCard = () => {
 
       {!loading && (
 
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-3 p-3">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5  gap-3 p-3">
 
           {products.map((item) => (
 
