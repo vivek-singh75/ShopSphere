@@ -179,7 +179,7 @@ const Cart = () => {
 
                 {/* Price */}
                 <p className="font-semibold">
-                  ₹{item.price}
+                  ₹{item.price.toFixed(2)}
                 </p>
 
                 {/* Quantity */}

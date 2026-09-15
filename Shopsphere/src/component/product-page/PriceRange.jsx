@@ -12,7 +12,7 @@ const PriceRange = ({price , setPrice}) => {
             <input
                 type="range"
                 min="0"
-                max="10000"
+                max="20000"
                 value={price}
                 onChange={(e)=>setPrice(e.target.value)}
                 className="w-full accent-blue-600"
