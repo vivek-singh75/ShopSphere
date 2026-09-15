@@ -2,7 +2,7 @@ export const addToCart = (product, quantity = 1) => {
   const productInfo = {
     id: product.id,
     brand: product.brand,
-    price: product.price,
+    price: product.priceINR,
     discountPercentage: product.discountPercentage,
     thumbnail: product.thumbnail,
     title: product.title,

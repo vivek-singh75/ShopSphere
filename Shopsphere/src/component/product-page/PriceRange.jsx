@@ -1,8 +1,7 @@
 import { useState } from "react";
 
-const PriceRange = () => {
+const PriceRange = ({price , setPrice}) => {
 
-    const [price, setPrice] = useState(5000);
 
     return (
         <div className="bg-white rounded-xl shadow-md p-5">

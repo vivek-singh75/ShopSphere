@@ -1,9 +1,12 @@
 import React from 'react'
+import { useState } from 'react'
 import ProductCard from '../component/product-page/ProductCard'
 import SidePart1 from '../component/product-page/SidePart1'
 
 
 const Products = () => {
+  const [price, setPrice] = useState(5000);
+
   return (
     <div>
       <div className='py-6 px-8 grid gap-1'>
@@ -13,10 +16,13 @@ const Products = () => {
       </div>
       <div className='flex px-2'>
         <div className=' lg:px-4'>
-          <SidePart1/>
+          <SidePart1 
+            price = {price}
+            setPrice = {setPrice}
+          />
         </div>
         <div className='w-[85%]  '>
-          <ProductCard/>      
+          <ProductCard  price = {price}/>      
         </div>
       </div>
      

@@ -3,7 +3,7 @@ import PriceRange from './PriceRange';
 import SelectCatog from './SelectCatog';
 import SelectBrand from './SelectBrand';
 
-const SidePart1 = () => {
+const SidePart1 = ({price , setPrice}) => {
    
   return (
         <div className=' gap-2 hidden md:grid'>
@@ -11,7 +11,10 @@ const SidePart1 = () => {
                 <SelectCatog/>
             </div>
             <div>
-               <PriceRange/>
+               <PriceRange 
+                        price = {price}
+                        setPrice = {setPrice}
+                    />
                 
             </div>
             <div>

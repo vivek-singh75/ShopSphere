@@ -3,7 +3,7 @@ import { FaCartArrowDown, FaStar } from "react-icons/fa";
 import { CiHeart } from "react-icons/ci";
 import { IoFilter } from "react-icons/io5";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { addToCart } from "../AddToCart";
 
 const LIMIT = 10;
@@ -17,9 +17,10 @@ const API_URL = "https://dummyjson.com/products";
 const ProductCardItem = ({ item }) => {
 
   const discountedPrice = (
-    item.price -
-    (item.price * item.discountPercentage) / 100
+    item.priceINR -
+    (item.priceINR * item.discountPercentage) / 100
   ).toFixed(2);
+  
   const product = item
   const quantity= 1
 
@@ -39,7 +40,7 @@ const ProductCardItem = ({ item }) => {
 
       {/* ================= DESKTOP ================= */}
 
-      <div className="hidden md:flex flex-col bg-cyan-100 h-71 w-45 lg:h-81 lg:w-57 rounded overflow-hidden hover:shadow-lg hover:scale-[1.02] transition duration-200">
+      <div className="hidden md:flex flex-col bg-cyan-100 h-71vh w-45vw lg:h-81vh lg:w-55vw rounded overflow-hidden hover:shadow-lg hover:scale-[1.02] transition duration-200">
 
         {/* Image */}
         <div className="px-2 py-2 relative">
@@ -59,7 +60,7 @@ const ProductCardItem = ({ item }) => {
           <img
             src={item.thumbnail}
             alt={item.title}
-            className="py-5 h-40 w-full object-contain rounded-xl bg-white"
+            className="py-5 h-35 w-full object-contain rounded-xl bg-white"
           />
 
         </div>
@@ -97,11 +98,11 @@ const ProductCardItem = ({ item }) => {
           <div className="flex gap-2 items-center">
 
             <span className="font-bold">
-              ₹{discountedPrice}
+              ₹{discountedPrice }
             </span>
 
             <span className="text-gray-500 text-sm line-through">
-              ₹{item.price}
+              ₹{item.priceINR}
             </span>
 
           </div>
@@ -137,7 +138,7 @@ const ProductCardItem = ({ item }) => {
         <div className="flex w-full min-h-[25vh] gap-2 bg-cyan-100 rounded-md overflow-hidden">
 
           {/* Image */}
-          <div className="bg-white border-[10px] border-cyan-100 w-[35vw] shrink-0">
+          <div className="bg-white border-10px border-cyan-100 w-[35vw] shrink-0">
 
             <div className="flex justify-between items-center py-2">
 
@@ -196,7 +197,7 @@ const ProductCardItem = ({ item }) => {
               </span>
 
               <span className="text-gray-500 text-sm line-through">
-                ₹{item.price}
+                ₹{item.priceINR}
               </span>
 
             </div>
@@ -226,11 +227,10 @@ const ProductCardItem = ({ item }) => {
 };
 
 
-// ======================================================
 // PRODUCT LIST
-// ======================================================
 
-const ProductCard = () => {
+
+const ProductCard = ({price}) => {    //data of price is received here from priceRange
 
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
@@ -246,11 +246,9 @@ const ProductCard = () => {
 
   const totalPages = Math.ceil(total / LIMIT);
 
-
   // ====================================================
   // FETCH PRODUCTS
   // ====================================================
-
   const getProducts = async () => {
 
     try {
@@ -261,10 +259,17 @@ const ProductCard = () => {
         `${API_URL}?limit=${LIMIT}&skip=${skip}`
       );
 
-      setProducts(response.data.products);
-   
-      setTotal(response.data.total);
+      const dataOnPage = response.data.products
       
+      setProducts(dataOnPage);
+
+      console.log(dataOnPage)
+   //   console.log(dataOnPage[0].price)
+
+
+      setTotal(response.data.total);
+
+
     } catch (error) {
       console.error(
         "Failed to fetch products:",
@@ -311,7 +316,17 @@ const ProductCard = () => {
 
   };
 
+  // ====================================================
+  // adding  priceINR becouse api provide price in USD and filtering product according to price range 
+  // ====================================================
+  const USD_TO_INR = 50;       
 
+  const filteredProduct = products.map((item)=>({
+    ...item,
+    priceINR : (item.price * USD_TO_INR).toFixed(2),
+    
+    
+  })).filter((item)=> item.priceINR < price );
   // ====================================================
   // ERROR
   // ====================================================
@@ -401,10 +416,10 @@ const ProductCard = () => {
 
       {!loading && (
 
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5  gap-3 p-3">
-
-          {products.map((item) => (
-
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4  gap-3 p-3">
+         
+         
+          {filteredProduct.map((item) => (
             <ProductCardItem
               key={item.id}
               item={item}
