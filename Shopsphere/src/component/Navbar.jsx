@@ -1,11 +1,33 @@
-import { React,useState } from 'react'
+import { React,useState, useEffect } from 'react'
 import { Search, User, Heart, ShoppingCart,  ChevronDown, ChevronUp } from "lucide-react";
 import { Link } from "react-router-dom";
 import { IoReorderThreeOutline } from "react-icons/io5";
 import Products from '../pages/Products';
 
 const Navbar = () => {
-        const [open, setOpen] = useState(false);        
+
+        const [open, setOpen] = useState(false);  
+
+        const [cartHasItem, setcartHasItem] = useState(() => {
+            const cardItem = JSON.parse(localStorage.getItem("cart") || "[]");
+
+            return cardItem.length > 0;
+        });
+
+        useEffect(() => {
+            const checkCart = () => {
+                const cardItem = JSON.parse(localStorage.getItem("cart") || "[]");
+
+                setcartHasItem(cardItem.length > 0);
+            };
+
+            const interval = setInterval(checkCart, 500);
+
+            return () => clearInterval(interval);
+        }, []);
+        
+
+  
   return (
     <div>
         <nav className='bg-blue-950 text-white w-full'>
@@ -65,7 +87,12 @@ const Navbar = () => {
                     <Link to="/Search"><Search size={20}/> </Link>
                     <Link to="/User"><User size={20}/> </Link>
                     <Link to="/Heart"><Heart size={20}/></Link>
-                    <Link to="/ShoppingCart"><ShoppingCart size={20}/> </Link>
+                     <Link to="/ShoppingCart" className="relative p-2">
+                        <ShoppingCart size={20} />
+                        {cartHasItem && (
+                            <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                        )}
+                    </Link>
                     
                 </div>
             </div>
@@ -74,4 +101,7 @@ const Navbar = () => {
   )
 }
 
+
 export default Navbar
+
+

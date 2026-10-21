@@ -8,6 +8,7 @@ import PageCategories from './pages/PageCategories'
 import Cart from './pages/Cart'
 import Footer from './component/Footer'
 import Product from './component/product-Details/Product'
+import Wishlist from './pages/Wishlist'
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
         <Route path="/Products" element={<Products />} />
         <Route path="/PageCategories" element={<PageCategories />} />
         <Route path='/ShoppingCart' element= {<Cart/>}/>
+        <Route path='/Heart' element= {<Wishlist/>}/>
       </Routes>
       <Footer/>
     </div>
