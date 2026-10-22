@@ -13,7 +13,7 @@ import { addToCart } from "../AddToCart";
 
 const LIMIT = 10;
 
-const API_URL = "https://dummyjson.com/products";
+const API_URL = "http://localhost:3000/api/products";
 
 
 // ======================================================
@@ -374,17 +374,15 @@ const ProductCard = ({ price }) => {
       setError(false);
 
       // Fetch all products
-      const response = await axios.get(
-        `${API_URL}?limit=0`
-      );
+      const response = await axios.get( `${API_URL}` );
 
 
-      const dataOnPage = response.data.products;
+      const dataOnPage = response.data.productData;
 
 
       setProducts(dataOnPage);
 
-      setTotal(dataOnPage.length);
+      //setTotal(dataOnPage.length);
 
 
       console.log("All Products:", dataOnPage);
@@ -662,7 +660,7 @@ const ProductCard = ({ price }) => {
             paginatedProducts.map((item) => (
 
               <ProductCardItem
-                key={item.id}
+                key={item._id}
                 item={item}
               />
 
