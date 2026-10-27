@@ -13,7 +13,7 @@ import { addToCart } from "../AddToCart";
 
 const LIMIT = 10;
 
-const API_URL = "http://localhost:3000/api/products";
+const API_URL = "https://shopsphere-jue3.onrender.com/api/products";
 
 
 // ======================================================

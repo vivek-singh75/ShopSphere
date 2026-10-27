@@ -26,7 +26,7 @@ const Product = () => {
     const getProduct = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/products${_id}`
+          `https://shopsphere-jue3.onrender.com:${_id}`
         );
 
         setProduct(response.data);
