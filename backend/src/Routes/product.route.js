@@ -1,8 +1,16 @@
 const express  =require('express');
 
 const productRouter  = express.Router();
-const productdataController =require("../Controllers/productData.controller");
+
+
+
+const productdataController = require("../Controllers/productData.controller");
+
+
 
 productRouter.get("/products" ,  productdataController.productdata);
+
+productRouter.get("/productById" ,  productdataController.productById);
+
 
 module.exports=  productRouter

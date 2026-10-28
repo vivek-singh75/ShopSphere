@@ -11,35 +11,39 @@ import {
 import { useNavigate  } from "react-router-dom";
 import { addToCart } from "../AddToCart";
 import { IoChevronBack } from "react-icons/io5";
+import {productDetailsById} from "../../api/product.api"
 
 
 
 const Product = () => {
-  const { id } = useParams();
+  const { _id } = useParams();
   const navigate = useNavigate()
   const [product, setProduct] = useState(null);
   const [mainImage, setMainImage] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState("M");
 
+
   useEffect(() => {
     const getProduct = async () => {
-      try {
-        const response = await axios.get(
-          `https://shopsphere-jue3.onrender.com:${_id}`
-        );
+        try {
+          console.log("product id is" , _id)
 
-        setProduct(response.data);
-        
-        console.log(response.data);
-        setMainImage(response.data.thumbnail);
-      } catch (error) {
-        console.log("Error fetching product:", error);
-      }
+          const response = await productDetailsById({productId: _id})
+          console.log("product")
+          setProduct(response.data.product);
+          
+          console.log("response are " , response.data);
+          setMainImage(response.data.product.thumbnail);
+        } catch (error) {
+          console.log("Error while fetching product:", error);
+        }
     };
-
-    getProduct();
-  }, [id]);
+    if(_id){
+      getProduct();
+    }
+ 
+  }, [_id]);
 
  
   if (!product) {

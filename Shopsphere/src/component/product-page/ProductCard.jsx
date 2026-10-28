@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { FaCartArrowDown, FaStar } from "react-icons/fa";
 import { CiHeart } from "react-icons/ci";
 import { IoFilter } from "react-icons/io5";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import { addToCart } from "../AddToCart";
+import { allProducts } from "../../api/product.api";
 
 
 // ======================================================
@@ -13,7 +13,7 @@ import { addToCart } from "../AddToCart";
 
 const LIMIT = 10;
 
-const API_URL = "https://shopsphere-jue3.onrender.com/api/products";
+const USD_TO_INR = 50;
 
 
 // ======================================================
@@ -22,325 +22,328 @@ const API_URL = "https://shopsphere-jue3.onrender.com/api/products";
 
 const ProductCardItem = ({ item }) => {
 
-  // Discounted price
-  const discountedPrice = (
-    item.priceINR -
-    (item.priceINR * item.discountPercentage) / 100
-  ).toFixed(2);
+    // --------------------------------------------------
+    // DISCOUNTED PRICE
+    // --------------------------------------------------
 
+    const discountedPrice = (
+        item.priceINR -
+        (item.priceINR * Number(item.discountPercentage || 0)) / 100
+    ).toFixed(2);
 
-  const product = item;
 
-  const quantity = 1;
+    const product = item;
 
+    const quantity = 1;
 
-  // ====================================================
-  // ADD TO CART
-  // ====================================================
 
-  const handleAddToCart = () => {
+    // ====================================================
+    // ADD TO CART
+    // ====================================================
 
-    addToCart(product, quantity);
+    const handleAddToCart = () => {
 
-    console.log("clicked");
+        addToCart(product, quantity);
 
-    alert("Added to cart");
+        console.log("clicked");
 
-  };
+        alert("Added to cart");
 
+    };
 
-  return (
 
-    <Link
-      to={`/product/${item.id}`}
-      className="text-black no-underline block"
-    >
+    return (
 
+        <Link
+            to={`/product/${item._id}`}
+            className="text-black no-underline block"
+        >
 
-      {/* ==================================================
-          DESKTOP
-      ================================================== */}
 
-      <div className="hidden md:flex flex-col bg-cyan-100 h-71vh w-45vw lg:h-81vh lg:w-55vw rounded overflow-hidden hover:shadow-lg hover:scale-[1.02] transition duration-200">
+            {/* ==================================================
+                DESKTOP
+            ================================================== */}
 
+            <div className="hidden md:flex flex-col bg-cyan-100 h-71vh w-45vw lg:h-81vh lg:w-55vw rounded overflow-hidden hover:shadow-lg hover:scale-[1.02] transition duration-200">
 
-        {/* ==================================================
-            IMAGE
-        ================================================== */}
 
-        <div className="px-2 py-2 relative">
+                {/* ==================================================
+                    IMAGE
+                ================================================== */}
 
-          <div className="absolute top-2 left-2 right-2 z-10 flex justify-between">
+                <div className="px-2 py-2 relative">
 
-            <span className="h-4 w-15 bg-red-400 text-white flex justify-center items-center rounded text-[10px]">
+                    <div className="absolute top-2 left-2 right-2 z-10 flex justify-between">
 
-              {Math.round(item.discountPercentage)}% OFF
+                        <span className="h-4 w-15 bg-red-400 text-white flex justify-center items-center rounded text-[10px]">
 
-            </span>
+                            {Math.round(item.discountPercentage)}% OFF
 
+                        </span>
 
-            <span className="text-xl">
 
-              <CiHeart />
+                        <span className="text-xl">
 
-            </span>
+                            <CiHeart />
 
-          </div>
+                        </span>
 
+                    </div>
 
-          <img
-            src={item.thumbnail}
-            alt={item.title}
-            className="py-5 h-35 w-full object-contain rounded-xl bg-white"
-          />
 
-        </div>
+                    <img
+                        src={item.thumbnail}
+                        alt={item.title}
+                        className="py-5 h-35 w-full object-contain rounded-xl bg-white"
+                    />
 
+                </div>
 
-        {/* ==================================================
-            INFORMATION
-        ================================================== */}
 
-        <div className="px-2 flex-1">
+                {/* ==================================================
+                    INFORMATION
+                ================================================== */}
 
+                <div className="px-2 flex-1">
 
-          {/* Rating */}
 
-          <div className="flex items-center gap-1 text-sm">
+                    {/* Rating */}
 
-            <FaStar
-              size={15}
-              className="text-yellow-400"
-            />
+                    <div className="flex items-center gap-1 text-sm">
 
-            <span>
-              {item.rating}
-            </span>
+                        <FaStar
+                            size={15}
+                            className="text-yellow-400"
+                        />
 
-            <span className="text-gray-500">
-              ({item.reviews?.length || 0})
-            </span>
+                        <span>
+                            {item.rating}
+                        </span>
 
-          </div>
+                        <span className="text-gray-500">
+                            ({item.reviews?.length || 0})
+                        </span>
 
+                    </div>
 
-          {/* Category */}
 
-          <h3 className="font-bold capitalize truncate">
+                    {/* Category */}
 
-            {item.category}
+                    <h3 className="font-bold capitalize truncate">
 
-          </h3>
+                        {item.category}
 
+                    </h3>
 
-          {/* Brand */}
 
-          <p className="text-sm truncate">
+                    {/* Brand */}
 
-            {item.brand}
+                    <p className="text-sm truncate">
 
-          </p>
+                        {item.brand}
 
+                    </p>
 
-          {/* ==================================================
-              PRICE
-          ================================================== */}
 
-          <div className="flex gap-2 items-center">
+                    {/* ==================================================
+                        PRICE
+                    ================================================== */}
 
-            <span className="font-bold">
+                    <div className="flex gap-2 items-center">
 
-              ₹{discountedPrice}
+                        <span className="font-bold">
 
-            </span>
+                            ₹{discountedPrice}
 
+                        </span>
 
-            <span className="text-gray-500 text-sm line-through">
 
-              ₹{item.priceINR.toFixed(2)}
+                        <span className="text-gray-500 text-sm line-through">
 
-            </span>
+                            ₹{Number(item.priceINR).toFixed(2)}
 
-          </div>
+                        </span>
 
-        </div>
+                    </div>
 
+                </div>
 
-        {/* ==================================================
-            ADD TO CART
-        ================================================== */}
 
-        <div className="px-2 pb-2">
+                {/* ==================================================
+                    ADD TO CART
+                ================================================== */}
 
-          <button
-            type="button"
-            onClick={(e) => {
+                <div className="px-2 pb-2">
 
-              e.preventDefault();
+                    <button
+                        type="button"
+                        onClick={(e) => {
 
-              e.stopPropagation();
+                            e.preventDefault();
 
-              handleAddToCart();
+                            e.stopPropagation();
 
-            }}
-            className="w-full flex items-center justify-center gap-2 text-blue-500 px-4 py-2 rounded border-2 border-blue-500 hover:bg-blue-500 hover:text-white transition"
-          >
+                            handleAddToCart();
 
-            <FaCartArrowDown />
+                        }}
+                        className="w-full flex items-center justify-center gap-2 text-blue-500 px-4 py-2 rounded border-2 border-blue-500 hover:bg-blue-500 hover:text-white transition"
+                    >
 
-            Add to Cart
+                        <FaCartArrowDown />
 
-          </button>
+                        Add to Cart
 
-        </div>
+                    </button>
 
+                </div>
 
-      </div>
-
-
-      {/* ==================================================
-          MOBILE
-      ================================================== */}
-
-      <div className="md:hidden py-2">
-
-
-        <div className="flex w-full min-h-[25vh] gap-2 bg-cyan-100 rounded-md overflow-hidden">
-
-
-          {/* ==================================================
-              IMAGE
-          ================================================== */}
-
-          <div className="bg-white border-10px border-cyan-100 w-[35vw] shrink-0">
-
-            <div className="flex justify-between items-center py-2">
-
-              <span className="h-4 w-15 bg-red-400 text-white flex justify-center items-center rounded text-[10px]">
-
-                {Math.round(item.discountPercentage)}% OFF
-
-              </span>
-
-
-              <span className="text-lg">
-
-                <CiHeart />
-
-              </span>
 
             </div>
 
 
-            <img
-              src={item.thumbnail}
-              alt={item.title}
-              className="h-[15vh] w-full object-contain"
-            />
+            {/* ==================================================
+                MOBILE
+            ================================================== */}
 
-          </div>
+            <div className="md:hidden py-2">
 
 
-          {/* ==================================================
-              INFORMATION
-          ================================================== */}
-
-          <div className="flex-1 py-3 pr-2 overflow-hidden">
+                <div className="flex w-full min-h-[25vh] gap-2 bg-cyan-100 rounded-md overflow-hidden">
 
 
-            {/* Rating */}
+                    {/* ==================================================
+                        IMAGE
+                    ================================================== */}
 
-            <div className="flex items-center gap-1 text-sm">
+                    <div className="bg-white border-10px border-cyan-100 w-[35vw] shrink-0">
 
-              <FaStar
-                size={15}
-                className="text-yellow-400"
-              />
+                        <div className="flex justify-between items-center py-2">
 
-              <span>
-                {item.rating}
-              </span>
+                            <span className="h-4 w-15 bg-red-400 text-white flex justify-center items-center rounded text-[10px]">
 
-              <span className="text-gray-500">
+                                {Math.round(item.discountPercentage)}% OFF
 
-                ({item.reviews?.length || 0})
+                            </span>
 
-              </span>
+
+                            <span className="text-lg">
+
+                                <CiHeart />
+
+                            </span>
+
+                        </div>
+
+
+                        <img
+                            src={item.thumbnail}
+                            alt={item.title}
+                            className="h-[15vh] w-full object-contain"
+                        />
+
+                    </div>
+
+
+                    {/* ==================================================
+                        INFORMATION
+                    ================================================== */}
+
+                    <div className="flex-1 py-3 pr-2 overflow-hidden">
+
+
+                        {/* Rating */}
+
+                        <div className="flex items-center gap-1 text-sm">
+
+                            <FaStar
+                                size={15}
+                                className="text-yellow-400"
+                            />
+
+                            <span>
+                                {item.rating}
+                            </span>
+
+                            <span className="text-gray-500">
+
+                                ({item.reviews?.length || 0})
+
+                            </span>
+
+                        </div>
+
+
+                        {/* Category */}
+
+                        <h3 className="font-semibold capitalize truncate">
+
+                            {item.category}
+
+                        </h3>
+
+
+                        {/* Brand */}
+
+                        <p className="text-sm truncate">
+
+                            {item.brand}
+
+                        </p>
+
+
+                        {/* Price */}
+
+                        <div className="flex gap-2 items-center">
+
+                            <span className="font-bold">
+
+                                ₹{discountedPrice}
+
+                            </span>
+
+
+                            <span className="text-gray-500 text-sm line-through">
+
+                                ₹{Number(item.priceINR).toFixed(2)}
+
+                            </span>
+
+                        </div>
+
+
+                        {/* Add To Cart */}
+
+                        <button
+                            type="button"
+                            onClick={(e) => {
+
+                                e.preventDefault();
+
+                                e.stopPropagation();
+
+                                handleAddToCart();
+
+                            }}
+                            className="mt-2 flex items-center justify-center gap-1 text-blue-500 px-3 py-2 rounded border-2 border-blue-500 text-xs hover:bg-blue-500 hover:text-white transition"
+                        >
+
+                            <FaCartArrowDown />
+
+                            Add to Cart
+
+                        </button>
+
+
+                    </div>
+
+                </div>
 
             </div>
 
 
-            {/* Category */}
+        </Link>
 
-            <h3 className="font-semibold capitalize truncate">
-
-              {item.category}
-
-            </h3>
-
-
-            {/* Brand */}
-
-            <p className="text-sm truncate">
-
-              {item.brand}
-
-            </p>
-
-
-            {/* Price */}
-
-            <div className="flex gap-2 items-center">
-
-              <span className="font-bold">
-
-                ₹{discountedPrice}
-
-              </span>
-
-
-              <span className="text-gray-500 text-sm line-through">
-
-                ₹{item.priceINR.toFixed(2)}
-
-              </span>
-
-            </div>
-
-
-            {/* Add To Cart */}
-
-            <button
-              type="button"
-              onClick={(e) => {
-
-                e.preventDefault();
-
-                e.stopPropagation();
-
-                handleAddToCart();
-
-              }}
-              className="mt-2 flex items-center justify-center gap-1 text-blue-500 px-3 py-2 rounded border-2 border-blue-500 text-xs hover:bg-blue-500 hover:text-white transition"
-            >
-
-              <FaCartArrowDown />
-
-              Add to Cart
-
-            </button>
-
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-    </Link>
-
-  );
+    );
 
 };
 
@@ -352,389 +355,370 @@ const ProductCardItem = ({ item }) => {
 const ProductCard = ({ price }) => {
 
 
-  const [products, setProducts] = useState([]);
+    const [products, setProducts] = useState([]);
 
-  const [page, setPage] = useState(1);
+    const [skip, setSkip] = useState(0);
 
-  const [total, setTotal] = useState(0);
+    const [total, setTotal] = useState(0);
 
-  const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
 
-  const [error, setError] = useState(false);
+    const [error, setError] = useState(false);
 
 
-  // ====================================================
-  // FETCH PRODUCTS
-  // ====================================================
+    // ====================================================
+    // CURRENT PAGE
+    // ====================================================
 
-  const getProducts = async () => {
+    const page = Math.floor(skip / LIMIT) + 1;
 
-    try {
-      setLoading(true);
-      setError(false);
 
-      // Fetch all products
-      const response = await axios.get( `${API_URL}` );
+    // ====================================================
+    // TOTAL PAGES
+    // ====================================================
 
+    const totalPages = Math.ceil(total / LIMIT);
 
-      const dataOnPage = response.data.productData;
 
+    // ====================================================
+    // FETCH PRODUCTS
+    // ====================================================
 
-      setProducts(dataOnPage);
+    const getProducts = async () => {
 
-      //setTotal(dataOnPage.length);
+        try {
 
+            setLoading(true);
 
-      console.log("All Products:", dataOnPage);
+            setError(false);
 
 
-    } catch (error) {
+            // --------------------------------------------
+            // FETCH ONLY CURRENT PAGE
+            // --------------------------------------------
 
-      console.error(
-        "Failed to fetch products:",
-        error
-      );
+            const response = await allProducts(
+                LIMIT,
+                skip,
+                price
+            );
 
-      setError(true);
 
+            const dataOnPage =
+                response.data.productData;
 
-    } finally {
 
-      setLoading(false);
+            // --------------------------------------------
+            // SAVE PRODUCTS
+            // --------------------------------------------
 
-    }
+            setProducts(dataOnPage);
 
-  };
 
+            // --------------------------------------------
+            // SAVE TOTAL MATCHING PRODUCTS
+            // --------------------------------------------
 
-  // ====================================================
-  // FETCH PRODUCTS ONLY ONCE
-  // ====================================================
+            setTotal(
+                response.data.totalProducts
+            );
 
-  useEffect(() => {
 
-    getProducts();
+            console.log(
+                "Products on current page:",
+                dataOnPage
+            );
 
-  }, []);
 
+            console.log(
+                "Total matching products:",
+                response.data.totalProducts
+            );
 
-  // ====================================================
-  // CURRENCY CONVERSION
-  // ====================================================
 
-  // Project conversion rate
-  // API price = USD
-  // Project price = INR
+        } catch (error) {
 
-  const USD_TO_INR = 88;
+            console.error(
+                "Failed to fetch products:",
+                error
+            );
 
+            setError(true);
 
-  // ====================================================
-  // CONVERT USD TO INR
-  // THEN FILTER PRODUCTS
-  // ====================================================
+        } finally {
 
-  const filteredProduct = products
-    .map((item) => ({
+            setLoading(false);
 
-      ...item,
+        }
 
-      // IMPORTANT:
-      // Keep priceINR as NUMBER
-      priceINR: item.price * USD_TO_INR,
+    };
 
-    }))
-    .filter((item) => {
 
+    // ====================================================
+    // FETCH WHEN PAGE OR FILTER CHANGES
+    // ====================================================
 
-      // If priceRange has not arrived yet,
-      // show all products.
+    useEffect(() => {
 
-      if (
-        price === undefined ||
-        price === null
-      ) {
+        getProducts();
 
-        return true;
+    }, [skip, price]);
 
-      }
 
+    // ====================================================
+    // RESET PAGE WHEN PRICE FILTER CHANGES
+    // ====================================================
 
-      return item.priceINR <= Number(price);
+    useEffect(() => {
 
-    });
+        setSkip(0);
 
+    }, [price]);
 
-  // ====================================================
-  // PAGINATION
-  // ====================================================
 
-  const totalPages = Math.ceil(
-    filteredProduct.length / LIMIT
-  );
+    // ====================================================
+    // CONVERT PRICE
+    // ====================================================
 
+    const productsWithINR = products.map((item) => ({
 
-  const skip = (page - 1) * LIMIT;
+        ...item,
 
+        priceINR:
+            Number(item.price) * USD_TO_INR
 
-  const paginatedProducts = filteredProduct.slice(
-    skip,
-    skip + LIMIT
-  );
+    }));
 
 
-  // ====================================================
-  // RESET PAGE WHEN PRICE RANGE CHANGES
-  // ====================================================
+    // ====================================================
+    // NEXT PAGE
+    // ====================================================
 
-  useEffect(() => {
+    const nextPage = () => {
 
-    setPage(1);
+        if (page < totalPages) {
 
-  }, [price]);
+            setSkip((previousSkip) =>
+                previousSkip + LIMIT
+            );
 
+        }
 
-  // ====================================================
-  // SAFETY:
-  // IF CURRENT PAGE BECOMES INVALID
-  // ====================================================
+    };
 
-  useEffect(() => {
 
-    if (
-      totalPages > 0 &&
-      page > totalPages
-    ) {
+    // ====================================================
+    // PREVIOUS PAGE
+    // ====================================================
 
-      setPage(totalPages);
+    const previousPage = () => {
 
-    }
+        if (skip >= LIMIT) {
 
-  }, [page, totalPages]);
+            setSkip((previousSkip) =>
+                previousSkip - LIMIT
+            );
 
+        }
 
-  // ====================================================
-  // PAGINATION
-  // ====================================================
+    };
 
-  const nextPage = () => {
 
-    if (page < totalPages) {
+    // ====================================================
+    // ERROR
+    // ====================================================
 
-      setPage((prev) => prev + 1);
+    if (error) {
 
-    }
+        return (
 
-  };
+            <div className="flex flex-col justify-center items-center py-20">
 
+                <h2 className="text-xl font-bold">
 
-  const previousPage = () => {
+                    Something went wrong
 
-    if (page > 1) {
+                </h2>
 
-      setPage((prev) => prev - 1);
 
-    }
+                <button
+                    onClick={getProducts}
+                    className="mt-4 bg-blue-950 text-white px-5 py-2 rounded"
+                >
 
-  };
+                    Try Again
 
-
-  // ====================================================
-  // ERROR
-  // ====================================================
-
-  if (error) {
-
-    return (
-
-      <div className="flex flex-col justify-center items-center py-20">
-
-        <h2 className="text-xl font-bold">
-
-          Something went wrong
-
-        </h2>
-
-
-        <button
-          onClick={getProducts}
-          className="mt-4 bg-blue-950 text-white px-5 py-2 rounded"
-        >
-
-          Try Again
-
-        </button>
-
-      </div>
-
-    );
-
-  }
-
-
-  // ====================================================
-  // RETURN
-  // ====================================================
-
-  return (
-
-    <div>
-
-
-      {/* ==================================================
-          FILTER / SORT
-      ================================================== */}
-
-      <div className="flex justify-between items-center h-8 px-3 md:px-5">
-
-
-        <div className="flex gap-5 md:gap-10 items-center">
-
-
-          <button
-            className="flex items-center h-7 w-25 bg-white rounded gap-3 px-2"
-          >
-
-            <IoFilter size={15} />
-
-            Filter
-
-          </button>
-
-
-          <h4 className="hidden md:block">
-
-            {filteredProduct.length} Products Found
-
-          </h4>
-
-
-        </div>
-
-
-        <button className="h-7 w-35 bg-white rounded">
-
-          Sort By:
-
-        </button>
-
-
-      </div>
-
-
-      {/* ==================================================
-          LOADING
-      ================================================== */}
-
-      {loading && (
-
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-3 p-3">
-
-          {Array.from({ length: LIMIT }).map(
-            (_, index) => (
-
-              <div
-                key={index}
-                className="bg-gray-200 rounded h-80 animate-pulse"
-              />
-
-            )
-          )}
-
-        </div>
-
-      )}
-
-
-      {/* ==================================================
-          PRODUCTS
-      ================================================== */}
-
-      {!loading && (
-
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3 p-3">
-
-
-          {paginatedProducts.length > 0 ? (
-
-            paginatedProducts.map((item) => (
-
-              <ProductCardItem
-                key={item._id}
-                item={item}
-              />
-
-            ))
-
-          ) : (
-
-            <div className="col-span-full flex justify-center items-center py-20">
-
-              <h2 className="text-xl font-semibold">
-
-                No products found in this price range.
-
-              </h2>
+                </button>
 
             </div>
 
-          )}
+        );
+
+    }
+
+
+    // ====================================================
+    // RETURN
+    // ====================================================
+
+    return (
+
+        <div>
+
+
+            {/* ==================================================
+                FILTER / SORT
+            ================================================== */}
+
+            <div className="flex justify-between items-center h-8 px-3 md:px-5">
+
+
+                <div className="flex gap-5 md:gap-10 items-center">
+
+
+                    <button
+                        className="flex items-center h-7 w-25 bg-white rounded gap-3 px-2"
+                    >
+
+                        <IoFilter size={15} />
+
+                        Filter
+
+                    </button>
+
+
+                    <h4 className="hidden md:block">
+
+                        {total} Products Found
+
+                    </h4>
+
+
+                </div>
+
+
+                <button className="h-7 w-35 bg-white rounded">
+
+                    Sort By:
+
+                </button>
+
+
+            </div>
+
+
+            {/* ==================================================
+                LOADING
+            ================================================== */}
+
+            {loading && (
+
+                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-3 p-3">
+
+                    {Array.from({ length: LIMIT }).map(
+                        (_, index) => (
+
+                            <div
+                                key={index}
+                                className="bg-gray-200 rounded h-80 animate-pulse"
+                            />
+
+                        )
+                    )}
+
+                </div>
+
+            )}
+
+
+            {/* ==================================================
+                PRODUCTS
+            ================================================== */}
+
+            {!loading && (
+
+                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3 p-3">
+
+
+                    {productsWithINR.length > 0 ? (
+
+                        productsWithINR.map((item) => (
+
+                            <ProductCardItem
+                                key={item._id}
+                                item={item}
+                            />
+
+                        ))
+
+                    ) : (
+
+                        <div className="col-span-full flex justify-center items-center py-20">
+
+                            <h2 className="text-xl font-semibold">
+
+                                No products found in this price range.
+
+                            </h2>
+
+                        </div>
+
+                    )}
+
+
+                </div>
+
+            )}
+
+
+            {/* ==================================================
+                PAGINATION
+            ================================================== */}
+
+            {!loading && totalPages > 0 && (
+
+                <div className="flex gap-4 justify-center items-center mt-5 mb-5">
+
+
+                    <button
+                        disabled={page === 1}
+                        onClick={previousPage}
+                        className="bg-blue-950 text-white rounded h-7 w-20 disabled:opacity-40 hover:bg-amber-700"
+                    >
+
+                        Previous
+
+                    </button>
+
+
+                    <h4>
+
+                        Page {page} of {totalPages}
+
+                    </h4>
+
+
+                    <button
+                        disabled={page === totalPages}
+                        onClick={nextPage}
+                        className="bg-blue-950 text-white rounded h-7 w-20 disabled:opacity-40 hover:bg-amber-700"
+                    >
+
+                        Next
+
+                    </button>
+
+
+                </div>
+
+            )}
 
 
         </div>
 
-      )}
-
-
-      {/* ==================================================
-          PAGINATION
-      ================================================== */}
-
-      {!loading && totalPages > 0 && (
-
-        <div className="flex gap-4 justify-center items-center mt-5 mb-5">
-
-
-          <button
-            disabled={page === 1}
-            onClick={previousPage}
-            className="bg-blue-950 text-white rounded h-7 w-20 disabled:opacity-40 hover:bg-amber-700"
-          >
-
-            Previous
-
-          </button>
-
-
-          <h4>
-
-            Page {page} of {totalPages}
-
-          </h4>
-
-
-          <button
-            disabled={page === totalPages}
-            onClick={nextPage}
-            className="bg-blue-950 text-white rounded h-7 w-20 disabled:opacity-40 hover:bg-amber-700"
-          >
-
-            Next
-
-          </button>
-
-
-        </div>
-
-      )}
-
-
-    </div>
-
-  );
+    );
 
 };
 
 
 export default ProductCard;
-
