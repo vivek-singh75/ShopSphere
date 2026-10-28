@@ -1,8 +1,8 @@
 export const addToCart = (product, quantity = 1) => {
   const productInfo = {
-    id: product.id,
+    _id: product._id,
     brand: product.brand,
-    price: product.priceINR,
+    price: product.price,
     discountPercentage: product.discountPercentage,
     thumbnail: product.thumbnail,
     title: product.title,
@@ -11,7 +11,7 @@ export const addToCart = (product, quantity = 1) => {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
   const existingProduct = cart.find(
-    (item) => item.id === productInfo.id
+    (item) => item._id === productInfo._id
   );
 
   if (existingProduct) {
@@ -27,4 +27,3 @@ export const addToCart = (product, quantity = 1) => {
 
   return cart;
 };
-

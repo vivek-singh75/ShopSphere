@@ -13,7 +13,7 @@ import { allProducts } from "../../api/product.api";
 
 const LIMIT = 10;
 
-const USD_TO_INR = 50;
+const USD_TO_INR = 1;
 
 
 // ======================================================
@@ -45,7 +45,7 @@ const ProductCardItem = ({ item }) => {
 
         addToCart(product, quantity);
 
-        console.log("clicked");
+        console.log(`${product.title} added in`);
 
         alert("Added to cart");
 

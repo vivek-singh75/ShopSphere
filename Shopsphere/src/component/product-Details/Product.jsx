@@ -27,13 +27,10 @@ const Product = () => {
   useEffect(() => {
     const getProduct = async () => {
         try {
-          console.log("product id is" , _id)
-
           const response = await productDetailsById({productId: _id})
-          console.log("product")
           setProduct(response.data.product);
           
-          console.log("response are " , response.data);
+          console.log("response are " , response.data.product);
           setMainImage(response.data.product.thumbnail);
         } catch (error) {
           console.log("Error while fetching product:", error);

@@ -17,10 +17,10 @@ const Cart = () => {
   }, [cart]);
 
   // ================= INCREASE QUANTITY =================
-  const increaseQty = (id) => {
+  const increaseQty = (_id) => {
     setCart((prevCart) =>
       prevCart.map((item) => {
-        if (item.id === id) {
+        if (item._id === _id) {
           // Agar stock available hai to stock tak allow karo
           const newQuantity = item.stock
             ? Math.min(item.quantity + 1, item.stock)
@@ -38,11 +38,11 @@ const Cart = () => {
   };
 
   // ================= DECREASE QUANTITY =================
-  const decreaseQty = (id) => {
+  const decreaseQty = (_id) => {
     setCart((prevCart) =>
       prevCart
         .map((item) => {
-          if (item.id === id) {
+          if (item._id === _id) {
             return {
               ...item,
               quantity: item.quantity - 1,
@@ -56,11 +56,12 @@ const Cart = () => {
   };
 
   // ================= REMOVE ITEM =================
-  const removeItem = (id) => {
+  const removeItem = (_id) => {
     setCart((prevCart) =>
-      prevCart.filter((item) => item.id !== id)
+      prevCart.filter((item) => item._id !== _id)
     );
   };
+  
 
   // ================= SUBTOTAL =================
   const subtotal = cart.reduce(
@@ -153,7 +154,7 @@ const Cart = () => {
             {/* Products */}
             {cart.map((item) => (
               <div
-                key={item.id}
+                key={item._id}
                 className="grid grid-cols-5 gap-4 items-center px-6 py-5 border-b"
               >
 
@@ -187,7 +188,7 @@ const Cart = () => {
                 <div className="flex items-center border rounded-lg w-fit">
 
                   <button
-                    onClick={() => decreaseQty(item.id)}
+                    onClick={() => decreaseQty(item._id)}
                     className="px-3 py-1 hover:bg-gray-100"
                   >
                     −
@@ -198,7 +199,7 @@ const Cart = () => {
                   </span>
 
                   <button
-                    onClick={() => increaseQty(item.id)}
+                    onClick={() => increaseQty(item._id)}
                     className="px-3 py-1 hover:bg-gray-100"
                   >
                     +
@@ -215,7 +216,7 @@ const Cart = () => {
                   </p>
 
                   <button
-                    onClick={() => removeItem(item.id)}
+                    onClick={() => removeItem(item._id)}
                     className="text-red-500 hover:text-red-700"
                   >
                     🗑
@@ -323,7 +324,7 @@ const Cart = () => {
 
             {cart.map((item) => (
               <div
-                key={item.id}
+                key={item._id}
                 className="bg-white rounded-xl shadow-sm p-4"
               >
 
@@ -346,7 +347,7 @@ const Cart = () => {
                       </h3>
 
                       <button
-                        onClick={() => removeItem(item.id)}
+                        onClick={() => removeItem(item._id)}
                         className="text-red-500"
                       >
                         🗑
@@ -366,7 +367,7 @@ const Cart = () => {
                     <div className="flex items-center border rounded-lg w-fit mt-3">
 
                       <button
-                        onClick={() => decreaseQty(item.id)}
+                        onClick={() => decreaseQty(item._id)}
                         className="px-3 py-1"
                       >
                         −
@@ -377,7 +378,7 @@ const Cart = () => {
                       </span>
 
                       <button
-                        onClick={() => increaseQty(item.id)}
+                        onClick={() => increaseQty(item._id)}
                         className="px-3 py-1"
                       >
                         +

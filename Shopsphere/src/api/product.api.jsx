@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const API_URL = "https://shopsphere-jue3.onrender.com";
-//const API_URL = "http://localhost:3000";
+//const API_URL = "https://shopsphere-jue3.onrender.com";
+const API_URL = "http://localhost:3000";
 
 
 export const allProducts = async (
